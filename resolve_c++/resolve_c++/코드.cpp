@@ -1,30 +1,47 @@
-#include<iostream>
+#include <iostream>
+#include <cstring>
+
 using namespace std;
 
-struct X {
-	int humans_num[10][2];
-	int current_num;
-	int max_num;
+struct multiply {
+	int need_mul_num[3];
+	int answer;
+	int count_num[10];
 };
 
-
 int main() {
-	X num;
-	num.current_num = 0;
-	num.max_num = 0;
-	for (int i = 0; i < 10; i++) {
-		for (int k = 0; k < 2; k++) {
-			cin >> num.humans_num[i][k];
-			if (num.humans_num[i][k] >= 10000)
-				exit(0);
-			if (k == 0)
-				num.current_num -= num.humans_num[i][k];
-			else if (k == 1)
-				num.current_num += num.humans_num[i][k];
-		}
-		if (num.current_num > num.max_num)
-			num.max_num = num.current_num;
+	multiply m;
+	int i;
+
+	m.answer = 1;
+
+	for (i = 0; i < 10; i++)
+		m.count_num[i] = 0;
+
+	for (i = 0; i < 3; i++) {
+		cin >> m.need_mul_num[i];
+		m.answer *= m.need_mul_num[i];
 	}
 
-	cout << num.max_num << endl;
+	int cnt = 0;
+	i = 1;
+
+	while (true) {
+		int whats_len = int(m.answer / i);
+		if (whats_len <= 0)
+			break;
+		cnt++;
+		i *= 10;
+	}
+
+	for (i = 0; i < cnt; i++) {
+		int whats_num = m.answer % 10;
+
+		m.answer /= 10;
+
+		m.count_num[whats_num]++;
+	}
+
+	for (i = 0; i < 10; i++)
+		cout << m.count_num[i] << endl;
 }
