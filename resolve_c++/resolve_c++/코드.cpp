@@ -3,45 +3,42 @@
 
 using namespace std;
 
-struct multiply {
-	int need_mul_num[3];
-	int answer;
-	int count_num[10];
+struct answer {
+	int receive_num[10];
+	int aver;
+	int frequently_num;
+	int fre_n[10];
+	int fre_thenumber[10];
 };
 
 int main() {
-	multiply m;
-	int i;
-
-	m.answer = 1;
-
+	answer ans;
+	ans.aver = 0;
+	int i, j;
 	for (i = 0; i < 10; i++)
-		m.count_num[i] = 0;
+		ans.fre_thenumber[i] = 0;
 
-	for (i = 0; i < 3; i++) {
-		cin >> m.need_mul_num[i];
-		m.answer *= m.need_mul_num[i];
+	for (i = 0; i < 10; i++) {
+		cin >> ans.receive_num[i];
+		if ((ans.receive_num[i] < 10 || ans.receive_num[i] > 1000) && ans.receive_num[i] % 10 != 0)
+			exit(0);
+		ans.aver += ans.receive_num[i];
 	}
+	ans.aver /= 10;
 
-	int cnt = 0;
-	i = 1;
-
-	while (true) {
-		int whats_len = int(m.answer / i);
-		if (whats_len <= 0)
-			break;
-		cnt++;
-		i *= 10;
+	for (i = 0; i < 10; i++) {
+		ans.fre_n[i] = ans.receive_num[i];
+		for (j = 0; j < 10; j++)
+			if (ans.fre_n[i] == ans.receive_num[j])
+				ans.fre_thenumber[i]++;
+		if (i != 0) {
+			if (ans.fre_thenumber[i] > ans.fre_thenumber[i - 1])
+				ans.frequently_num = ans.receive_num[i];
+		}
+		else 
+			ans.frequently_num = ans.receive_num[0];
 	}
-
-	for (i = 0; i < cnt; i++) {
-		int whats_num = m.answer % 10;
-
-		m.answer /= 10;
-
-		m.count_num[whats_num]++;
-	}
-
-	for (i = 0; i < 10; i++)
-		cout << m.count_num[i] << endl;
+	
+	cout << ans.aver << endl; 
+	cout << ans.frequently_num << endl;
 }
